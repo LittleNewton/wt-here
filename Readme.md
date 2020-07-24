@@ -8,14 +8,14 @@
 1. [安装 PowerShell 7](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7).
 1. 以**管理员身份**启动 PowerShell 7 控制台（Powershell 5 是不行的），然后运行`install.ps1`将【上下文菜单项】安装到 Windows 资源管理器。现在，菜单项已添加 到Windows 资源管理器上下文菜单。
 
-![mini layout](img/mini_layout.jpg)
-> 图 1: Default layout
+![mini layout](img/all_in_one.jpg)
+> **图 1**: 三种安装方式，注意，一定要在**管理员模式**下安装，切记！
 
 ## 2. 安装示例
 
 1. 以管理员身份打开刚安装好的 Powershell Core 7，然后切换工作目录到本库
 2. 确保网络畅通；
-3. 执行 `install.ps1 mini`，然后你将获得一个类似图 1 的桌面、文件夹右键菜单。
+3. 执行 `install.ps1 mini`，然后你将获得一个**类似图 1 中的第二幅图**的桌面、文件夹右键菜单。
 
 > 如果只运行 `install.ps1` 而不加参数，那么菜单项将以 `default` 布局组织。 其他布局（如 `mini` 和 `flat`）具有不同的外观。 要应用其他布局（如 `flat`），只需运行 `install.ps1 flat`”`。
 
