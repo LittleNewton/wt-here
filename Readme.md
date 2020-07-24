@@ -1,42 +1,31 @@
-# PowerShell Scripts to Install/Uninstall Context Menu Items for Windows Terminal
+# 用于 Windows 终端的安装/卸载上下文菜单项的 PowerShell 脚本
 
 *A project backed by [LeXtudio Inc.](https://www.lextudio.com)*
 
-## Install
+## 1. 安装指南
 
-1. [Install Windows Terminal](https://github.com/microsoft/terminal).
-1. [Install PowerShell 7](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7).
-1. Launch PowerShell 7 console as administrator, and run `install.ps1` to install context menu items to Windows Explorer.
+1. [安装 Windows Terminal](https://github.com/microsoft/terminal).
+1. [安装 PowerShell 7](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7).
+1. 以**管理员身份**启动 PowerShell 7 控制台（Powershell 5 是不行的），然后运行`install.ps1`将【上下文菜单项】安装到 Windows 资源管理器。现在，菜单项已添加 到Windows 资源管理器上下文菜单。
 
-Now the menu items are added to Windows Explorer context menu.
+![mini layout](img/mini_layout.jpg)
+> 图 1: Default layout
 
-![default layout](default.png)
+## 2. 安装示例
 
-Figure 1: Default layout
+1. 以管理员身份打开刚安装好的 Powershell Core 7，然后切换工作目录到本库
+2. 确保网络畅通；
+3. 执行 `install.ps1 mini`，然后你将获得一个类似图 1 的桌面、文件夹右键菜单。
 
-> The menu items are organized in the `default` layout. Other layouts such as `mini` and `flat` give different look and feel. To apply an aternative layout (like `mini`), simply run `install.ps1 mini`.
+> 如果只运行 `install.ps1` 而不加参数，那么菜单项将以 `default` 布局组织。 其他布局（如 `mini` 和 `flat`）具有不同的外观。 要应用其他布局（如 `flat`），只需运行 `install.ps1 flat`”`。
 
-![flat layout](flat.png)
+## 3. 卸载
 
-Figure 2: Flat layout
+1. 以管理员身份，在 PowerShell Core 7 中，执行 `uninstall.ps1 [mini | flat]` 即可删除该配置。
 
-![mini layout](mini.png)
+## 4. 注意
 
-Figure 3: Mini layout
-
-## Uninstall
-1. Run `uninstall.ps1` to uninstall context menu items from Windows Explorer.
-
-> To uninstall an alternative layout (like `mini`), run `uninstall.ps1 mini`.
-
-## Notes
-The current release only supports Windows 10 machines (Windows Terminal restriction).
-
-The scripts must be run as administrator.
-
-`install.ps1` and `uninstall.ps1` only manipulate Windows Explorer settings for the context menu items, and do not write to Windows Terminal settings.
-
-Downloading Windows Terminal icon from GitHub (in `install.ps1`) requires internet connection, but in general is just an optional step that won't be executed in most cases.
-
-## More Products
-To learn more about other cool products from LeXtudio Inc. , please visit [our homepage](https://www.lextudio.com/#projects).
+- 当前版本仅支持 Windows 10；
+- `install.ps1` 和 `uninstall.ps1` 脚本**必须**以管理员身份运行；
+- `install.ps1` 和 `uninstall.ps1` 仅操作上下文菜单项的 Windows 资源管理器设置，而不写入 Windows 终端设置；
+- 从 GitHub 下载 Windows Terminal 图标（在install.ps1中）需要 Internet 连接，最好在运行 `install.ps1` 时，将代理软件设置为全局代理；

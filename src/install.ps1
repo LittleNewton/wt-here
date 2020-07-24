@@ -359,9 +359,9 @@ function CreateMenuItems(
         $command = "$executable -d ""%V."""
         $elevated = "PowerShell -WindowStyle Hidden -Command ""Start-Process cmd.exe -WindowStyle Hidden -Verb RunAs -ArgumentList \""/c $executable -d \""\""%V.\""\""\"" """
         CreateMenuItem "Registry::HKEY_CLASSES_ROOT\Directory\shell\AddMenuTerminalMini" "Windows Terminal Here" $icon $command $false
-        CreateMenuItem "Registry::HKEY_CLASSES_ROOT\Directory\shell\AddMenuTerminalAdminMini" "Windows Terminal Here as Administrator" $icon $elevated $true   
+        CreateMenuItem "Registry::HKEY_CLASSES_ROOT\Directory\shell\AddMenuTerminalMiniAdmin" "Windows Terminal Here as Administrator" $icon $elevated $true   
         CreateMenuItem "Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\AddMenuTerminalMini" "Windows Terminal Here" $icon $command $false
-        CreateMenuItem "Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\AddMenuTerminalAdminMini" "Windows Terminal Here as Administrator" $icon $elevated $true   
+        CreateMenuItem "Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\AddMenuTerminalMiniAdmin" "Windows Terminal Here as Administrator" $icon $elevated $true   
         return
     }
 

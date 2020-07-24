@@ -36,9 +36,9 @@ if ($layout -eq "default") {
     }
 } elseif ($layout -eq "mini") {
     Remove-Item -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell\AddMenuTerminalMini' -Recurse -ErrorAction Ignore | Out-Null
-    Remove-Item -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell\AddMenuTerminalAdminMini' -Recurse -ErrorAction Ignore | Out-Null
+    Remove-Item -Path 'Registry::HKEY_CLASSES_ROOT\Directory\shell\AddMenuTerminalMiniAdmin' -Recurse -ErrorAction Ignore | Out-Null
     Remove-Item -Path 'Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\AddMenuTerminalMini' -Recurse -ErrorAction Ignore | Out-Null
-    Remove-Item -Path 'Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\AddMenuTerminalAdminMini' -Recurse -ErrorAction Ignore | Out-Null
+    Remove-Item -Path 'Registry::HKEY_CLASSES_ROOT\Directory\Background\shell\AddMenuTerminalMiniAdmin' -Recurse -ErrorAction Ignore | Out-Null
 }
 
 Write-Host "Windows Terminal uninstalled from Windows Explorer context menu."
