@@ -44,7 +44,7 @@ function Generate-HelperScript(
 Function Get-Icon {
 
 	[CmdletBinding()]
-	
+
 	Param ( 
 		[Parameter(Mandatory=$True, Position=1, HelpMessage="Enter the location of the .EXE file")]
 		[string]$File,
@@ -53,9 +53,9 @@ Function Get-Icon {
 		[Parameter(Position=1, ValueFromPipelineByPropertyName=$true)]
 		[string]$OutputFile
 	)
-	
+
 	[System.Reflection.Assembly]::LoadWithPartialName('System.Drawing')  | Out-Null
-	
+
 	[System.Drawing.Icon]::ExtractAssociatedIcon($File).ToBitmap().Save($OutputFile)
 }
 
@@ -80,16 +80,16 @@ function ConvertTo-Icon {
 	[Parameter(Mandatory=$true, Position=0, ValueFromPipelineByPropertyName=$true)]
 	[Alias('Fullname')]
 	[string]$File,
-   
+
 	# If provided, will output the icon to a location
 	[Parameter(Position=1, ValueFromPipelineByPropertyName=$true)]
 	[string]$OutputFile
 	)
-	
+
 	begin {
-		Add-Type -AssemblyName System.Drawing   
+		Add-Type -AssemblyName System.Drawing
 	}
-	
+
 	process {
 		#region Load Icon
 		$resolvedFile = $ExecutionContext.SessionState.Path.GetResolvedPSPathFromPSPath($file)
@@ -101,13 +101,13 @@ function ConvertTo-Icon {
 		$newBitmap = New-Object Drawing.Bitmap $inputBitmap, $size
 		#endregion Load Icon
 
-		#region Save Icon					 
+		#region Save Icon
 		$memoryStream = New-Object System.IO.MemoryStream
 		$newBitmap.Save($memoryStream, [System.Drawing.Imaging.ImageFormat]::Png)
 
 		$resolvedOutputFile = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($outputFile)
 		$output = [IO.File]::Create("$resolvedOutputFile")
-		
+
 		$iconWriter = New-Object System.IO.BinaryWriter($output)
 		# 0-1 reserved, 0
 		$iconWriter.Write([byte]0)
@@ -148,7 +148,7 @@ function ConvertTo-Icon {
 		$iconWriter.Write($memoryStream.ToArray());
 
 		$iconWriter.Flush();
-		$output.Close()			   
+		$output.Close()
 		#endregion Save Icon
 
 		#region Cleanup
@@ -314,7 +314,7 @@ function GetProfileIcon (
 		}
 	}
 
-	if (Test-Path $profilePng) {		
+	if (Test-Path $profilePng) {
 		if ($profilePng -like "*.png") {
 			# found PNG, convert to ICO
 			$result = "$localCache\$guid.ico"
