@@ -6,6 +6,11 @@ param(
     [Parameter(Position = 0)]
     [ValidateSet('Default', 'Flat', 'Mini')]
     [string] $Layout = 'Mini',
+
+    [Parameter(Position = 1)]
+    [ValidateScript({ Test-Path $_ })]
+    [string] $CustomPath,
+
     [Parameter()]
     [switch] $PreRelease
 )
@@ -167,6 +172,12 @@ function ConvertTo-Icon {
 function GetProgramFilesFolder(
     [Parameter(Mandatory = $true)]
     [bool]$includePreview) {
+
+    # 如果需要指定 Windows Terminal 路径，则需要做判断
+    if ($CustomPath -and $CustomPath -ne "") {
+        return $CustomPath
+    }
+
     $versionFolders = (Get-ChildItem "$Env:ProgramFiles\WindowsApps" | Where-Object {
             if ($includePreview) {
                 $_.Name -like "Microsoft.WindowsTerminal_*__*" -or
@@ -409,7 +420,7 @@ function CreateProfileMenuItems(
         CreateMenuItem $rootKeyElevated $name $profileIcon $elevated $true
     }
     elseif ($layout -eq "Flat") {
-        CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\MenuTerminalAdmin_$guid"                        "在终端中以管理员身份打开" $profileIcon $elevated $true
+        CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\MenuTerminalAdmin_$guid"                   "在终端中以管理员身份打开" $profileIcon $elevated $true
         CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\MenuTerminalAdmin_$guid"        "在终端中以管理员身份打开" $profileIcon $elevated $true
     }
 }
@@ -491,7 +502,12 @@ if ($PSVersionTable.PSVersion.Major -lt 6) {
     exit 1
 }
 
-$executable = "$Env:LOCALAPPDATA\Microsoft\WindowsApps\wt.exe"
+if ($CustomPath -and $CustomPath -ne "") {
+    $executable = Join-Path $CustomPath "wt.exe"
+}
+else {
+    $executable = "$Env:LOCALAPPDATA\Microsoft\WindowsApps\wt.exe"
+}
 if (-not (Test-Path $executable)) {
     Write-Error "Windows Terminal not detected. Learn how to install it from https://github.com/microsoft/terminal (via Microsoft Store is recommended). Exit."
     exit 1
