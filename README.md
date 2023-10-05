@@ -13,11 +13,28 @@
 
 ## 2. 安装示例
 
+### 2.1 Windows 10 安装
+
 1. 以管理员身份打开刚安装好的 Powershell Core 7，然后切换工作目录到本库
 2. 确保网络畅通；
 3. 执行 `install.ps1`，然后你将获得一个**类似图 1 中的第 1 幅图**的桌面、文件夹右键菜单。
 
 > 如果只运行 `install.ps1` 而不加参数，那么菜单项将以 `Mini` 布局组织。 其他布局（如 `Default` 和 `Flat`）具有不同的外观。 要应用其他布局（如 `Flat`），只需运行 `install.ps1 Flat`。
+
+**由于项目维护者 [@LittleNewton](https://github.com/LittleNewton/) 不喜欢 Windows 11，因此不保证脚本在该系统上的可用性。**
+
+### 2.2 Windows Server 2022 安装
+
+> **警告**：目前仅测试了 Administrator 用户。普通用户可能缺乏普通权限的右键菜单。
+
+Administrator 用户可通过添加自定义路径参数的方式执行脚本：
+
+``` powershell
+# 注意替换自定义的路径
+.\install.ps1 -CustomPath C:\Users\Administrator\Applications\Windows_Terminal
+```
+
+除此之外，其他细节同普通 Windows 10.
 
 ## 3. 卸载
 
