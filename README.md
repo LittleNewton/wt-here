@@ -5,7 +5,7 @@
 ## 1. 安装指南
 
 1. [安装 Windows Terminal](https://github.com/microsoft/terminal).
-2. [安装 PowerShell 7](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-windows?view=powershell-7).
+2. [安装 PowerShell 7](https://github.com/PowerShell/PowerShell).
 3. 以**管理员身份**启动 PowerShell 7 控制台 (Powershell 5 是**不行**的)，然后运行 `src` 目录下的 `install.ps1` 脚本，将【上下文菜单项】安装到 Windows 资源管理器。现在，菜单项已添加到 Windows 资源管理器上下文菜单了。
 
 ![layout](img/all_in_one.jpg)
@@ -25,24 +25,29 @@
 
 ### 2.2 Windows Server 2022 安装
 
-> **警告**：目前仅测试了 Administrator 用户。普通用户可能缺乏普通权限的右键菜单。
-
 Administrator 用户可通过添加自定义路径参数的方式执行脚本：
 
 ``` powershell
 # 注意替换自定义的路径
-.\install.ps1 -CustomPath C:\Users\Administrator\Applications\Windows_Terminal
+.\install.ps1 -CustomPath "C:\Users\Administrator\bin\Microsoft Windows Terminal"
+```
+
+对于 Windows Server 2022 普通用户，可以通过执行 `$WithNormal` 命令开关的方式，添加两个右键菜单，分别为普通用户和管理员用户，命令如下：
+
+``` powershell
+# 注意替换自定义路径
+.\install.ps1 -CustomPath "D:\Users\newton\bin\Microsoft Windows Terminal" -WithNormal
 ```
 
 除此之外，其他细节同普通 Windows 10.
 
 ## 3. 卸载
 
-以管理员身份，在 PowerShell Core 7 中，执行 `uninstall.ps1 [Default | Flat]` 即可删除该配置。
+以管理员身份，在 PowerShell 7 中，执行 `uninstall.ps1` 即可删除该配置。
 
 ## 4. 注意
 
-- 当前版本仅支持 Windows 10；
+- 当前版本仅支持 Windows 10 和 Windows Server 2022；
 - `install.ps1` 和 `uninstall.ps1` 脚本**必须**以管理员身份运行；
 - **必须**在版本 >= 6 的 PowerShell 下执行脚本；
 - `install.ps1` 和 `uninstall.ps1` 仅操作上下文菜单项的 Windows 资源管理器设置，而不写入 Windows Terminal 的设置；

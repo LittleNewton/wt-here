@@ -12,7 +12,11 @@ param(
     [string] $CustomPath,
 
     [Parameter()]
-    [switch] $PreRelease
+    [switch] $PreRelease,
+
+    [Parameter()]
+    [switch] $WithNormal
+
 )
 
 
@@ -406,7 +410,9 @@ function CreateProfileMenuItems(
     [Parameter(Mandatory = $true)]
     [string]$layout,
     [Parameter(Mandatory = $true)]
-    [bool]$isPreview) {
+    [bool]$isPreview,
+    [Parameter(Mandatory = $false)]
+    [bool] $WithNormal) {
     $guid = $profile.guid
     $name = $profile.name
     $command = """$executable"" -p ""$name"" -d ""%V."""
@@ -422,6 +428,12 @@ function CreateProfileMenuItems(
     elseif ($layout -eq "Flat") {
         CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\MenuTerminalAdmin_$guid"                   "在终端中以管理员身份打开" $profileIcon $elevated $true
         CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\MenuTerminalAdmin_$guid"        "在终端中以管理员身份打开" $profileIcon $elevated $true
+
+        if ($WithNormal) {
+            $normalCommand = "`"$CustomPath\wt.exe`" -d `"%V.`""
+            CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\MenuTerminal_$guid"                   "在终端中打开" $profileIcon $normalCommand $false
+            CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\MenuTerminal_$guid"        "在终端中打开" $profileIcon $normalCommand $false
+        }
     }
 }
 
@@ -435,7 +447,9 @@ function CreateMenuItems(
     [Parameter(Mandatory = $true)]
     [string]$layout,
     [Parameter(Mandatory = $true)]
-    [bool]$includePreview) {
+    [bool]$includePreview,
+    [Parameter(Mandatory = $false)]
+    [bool] $WithNormal)  {
     $folder = GetProgramFilesFolder $includePreview
     $localCache = "$Env:LOCALAPPDATA\Microsoft\WindowsApps\Cache"
 
@@ -476,6 +490,13 @@ function CreateMenuItems(
         $elevated = "wscript.exe ""$localCache/helper.vbs"" ""$executable"" ""%V."""
         CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\MenuTerminalMini_Admin"                        "在终端中以管理员身份打开"        $icon $elevated $true
         CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\MenuTerminalMini_Admin"             "在终端中以管理员身份打开"        $icon $elevated $true
+        
+        if ($WithNormal) {
+            $normalCommand = "`"$CustomPath\wt.exe`" -d `"%V.`""
+            CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\shell\MenuTerminalMini"                        "在终端中打开"        $icon $normalCommand $false
+            CreateMenuItem "Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\MenuTerminalMini"             "在终端中打开"        $icon $normalCommand $false
+        }
+
         return
     }
 
@@ -519,7 +540,7 @@ if (-not (Test-Path $executable)) {
 
 # 实际执行语句
 Write-Host "布局风格：$Layout"
-CreateMenuItems $executable $Layout $PreRelease
+CreateMenuItems $executable $Layout $PreRelease $WithNormal
 Write-Host "Windows Terminal 启动选项已添加到资源管理器右键菜单"
 Write-Host ""
 Write-Host "P.S. 卸载请使用 .\uninstall.ps1 $Layout"
